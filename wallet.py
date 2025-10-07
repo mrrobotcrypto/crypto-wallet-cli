@@ -4,6 +4,7 @@ import hashlib
 import base58
 from ecdsa import SigningKey, SECP256k1
 from cryptography.fernet import Fernet
+from backup_utils import encrypt_file, decrypt_file
 
 
 # === AES Key Management ===
