@@ -1,15 +1,23 @@
 import json
 import os
+import requests
 from wallet import generate_wallet
 
+# === CONFIGURATION ===
 WALLET_FILE = "wallets.json"
+API_URL = "http://127.0.0.1:5000"  # blockchain-sim API endpoint
 
 
+# === FILE MANAGEMENT ===
 def load_wallets():
     """Load existing wallets from file."""
     if os.path.exists(WALLET_FILE):
         with open(WALLET_FILE, "r") as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                print("⚠️ Wallet file corrupted, starting fresh.")
+                return []
     return []
 
 
@@ -29,15 +37,18 @@ def list_wallets(wallets):
         print(f"{i}. Address: {w['address']}")
 
 
+# === MAIN MENU ===
 def main_menu():
     """Interactive CLI menu."""
     wallets = load_wallets()
+
     while True:
         print("\n=== 🪙 CRYPTO WALLET CLI ===")
         print("1️⃣  Generate new wallet")
         print("2️⃣  List saved wallets")
-        print("3️⃣  Export all wallets (JSON)")
-        print("4️⃣  Exit")
+        print("3️⃣  Check wallet balance (via blockchain-sim)")
+        print("4️⃣  Export all wallets (JSON)")
+        print("5️⃣  Exit")
 
         choice = input("\nSelect an option: ").strip()
 
@@ -47,16 +58,41 @@ def main_menu():
             save_wallets(wallets)
             print(f"\n✅ New wallet created and saved!")
             print(f"Address: {new_wallet['address']}")
+
         elif choice == "2":
             list_wallets(wallets)
+
         elif choice == "3":
-            print(json.dumps(wallets, indent=4))
+            if not wallets:
+                print("\n⚠️ No wallets to check balance for.")
+                continue
+
+            print("\n🔍 Checking balances from blockchain-sim...\n")
+            for w in wallets:
+                try:
+                    res = requests.get(f"{API_URL}/balance/{w['address']}")
+                    if res.status_code == 200:
+                        data = res.json()
+                        print(f"💰 Address: {w['address']}")
+                        print(f"   Balance: {data['balance']} coins\n")
+                    else:
+                        print(f"❌ API error for {w['address']}: {res.status_code}")
+                except requests.exceptions.RequestException:
+                    print("⚠️ Unable to connect to blockchain API.")
+                    break
+
         elif choice == "4":
+            print("\n📤 Exported Wallets (JSON):\n")
+            print(json.dumps(wallets, indent=4))
+
+        elif choice == "5":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
+
         else:
             print("⚠️ Invalid selection, please try again.")
 
 
+# === ENTRY POINT ===
 if __name__ == "__main__":
     main_menu()
