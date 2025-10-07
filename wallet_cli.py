@@ -63,7 +63,11 @@ def send_transaction():
         if res.status_code == 201:
             print(f"\n✅ Transaction added to mempool!")
             print(f"   {sender} → {receiver} | Amount: {amount}")
-            
+            log_transaction(sender, receiver, amount)
+	print("🗒️  Transaction saved to local history log.")
+	
+
+
             auto_mine = input("\n⛏️  Mine transaction now? (y/n): ").strip().lower()
             if auto_mine == "y":
                 miner = input("Enter miner name (default: MrRobotCrypto): ").strip() or "MrRobotCrypto"
