@@ -7,3 +7,14 @@ Generates Bitcoin-like addresses using ECDSA and Base58 encoding.
 ```bash
 pip install ecdsa base58
 python wallet.py
+
+
+## 🧰 CLI Features
+- Interactive menu (generate, list, export, exit)
+- Wallets automatically saved to `wallets.json`
+- Secure ECDSA key generation
+- Simple and intuitive terminal interface
+
+Run:
+```bash
+python wallet_cli.py
