@@ -1,6 +1,8 @@
 import json
 import os
 import requests
+import datetime
+
 from wallet import generate_wallet
 
 # === CONFIGURATION ===
@@ -140,6 +142,14 @@ def main_menu():
 
         else:
             print("⚠️ Invalid selection, please try again.")
+
+
+def log_transaction(sender, receiver, amount):
+    """Save every transaction locally in transactions.log"""
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open("transactions.log", "a") as f:
+        f.write(f"[{timestamp}] {sender} -> {receiver} | {amount} coins\n")
+
 
 
 # === ENTRY POINT ===
