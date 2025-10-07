@@ -45,7 +45,6 @@ def send_transaction():
     receiver = input("To address: ").strip()
     amount = input("Amount: ").strip()
 
-    # Validation
     try:
         amount = float(amount)
         if amount <= 0:
@@ -55,22 +54,32 @@ def send_transaction():
         print("⚠️ Invalid amount. Must be a number.")
         return
 
-    data = {
-        "from": sender,
-        "to": receiver,
-        "amount": amount
-    }
+    data = {"from": sender, "to": receiver, "amount": amount}
 
     try:
         res = requests.post(f"{API_URL}/transactions/new", json=data)
         if res.status_code == 201:
             print(f"\n✅ Transaction added to mempool!")
             print(f"   {sender} → {receiver} | Amount: {amount}")
+            
+            auto_mine = input("\n⛏️  Mine transaction now? (y/n): ").strip().lower()
+            if auto_mine == "y":
+                miner = input("Enter miner name (default: MrRobotCrypto): ").strip() or "MrRobotCrypto"
+                mine_res = requests.get(f"{API_URL}/mine?miner={miner}")
+                if mine_res.status_code == 200:
+                    print("\n💎 Block mined successfully!")
+                    print(mine_res.text)
+                else:
+                    print("⚠️ Mining request failed.")
+            else:
+                print("🕒 Transaction left in mempool (not mined yet).")
+
         else:
             print(f"❌ Failed to send transaction (status {res.status_code})")
             print(res.text)
     except requests.exceptions.RequestException as e:
         print(f"⚠️ Network error: {e}")
+
 
 
 # === MAIN MENU ===
