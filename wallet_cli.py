@@ -2,12 +2,12 @@ import json
 import os
 import requests
 import datetime
-
 from wallet import generate_wallet
 
 # === CONFIGURATION ===
 WALLET_FILE = "wallets.json"
-API_URL = "http://192.168.1.106:5000"  # blockchain-sim API endpoint
+LOG_FILE = "transactions.log"
+API_URL = "http://127.0.0.1:5000"  # blockchain-sim API endpoint
 
 
 # === FILE MANAGEMENT ===
@@ -39,6 +39,14 @@ def list_wallets(wallets):
         print(f"{i}. Address: {w['address']}")
 
 
+# === LOGGING ===
+def log_transaction(sender, receiver, amount):
+    """Save every transaction locally in transactions.log"""
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    with open(LOG_FILE, "a") as f:
+        f.write(f"[{timestamp}] {sender} -> {receiver} | {amount} coins\n")
+
+
 # === TRANSACTION FEATURE ===
 def send_transaction():
     """Send a new transaction to the blockchain node."""
@@ -64,9 +72,7 @@ def send_transaction():
             print(f"\n✅ Transaction added to mempool!")
             print(f"   {sender} → {receiver} | Amount: {amount}")
             log_transaction(sender, receiver, amount)
-	print("🗒️  Transaction saved to local history log.")
-	
-
+            print("🗒️  Transaction saved to local history log.")
 
             auto_mine = input("\n⛏️  Mine transaction now? (y/n): ").strip().lower()
             if auto_mine == "y":
@@ -87,6 +93,16 @@ def send_transaction():
         print(f"⚠️ Network error: {e}")
 
 
+# === VIEW HISTORY ===
+def view_history():
+    """Display the local transaction history."""
+    if os.path.exists(LOG_FILE):
+        print("\n=== 🧾 TRANSACTION HISTORY ===\n")
+        with open(LOG_FILE, "r") as f:
+            print(f.read())
+    else:
+        print("\n📭 No transactions logged yet.")
+
 
 # === MAIN MENU ===
 def main_menu():
@@ -100,18 +116,8 @@ def main_menu():
         print("3️⃣  Check wallet balance (via blockchain-sim)")
         print("4️⃣  Export all wallets (JSON)")
         print("5️⃣  Send transaction to blockchain")
-        print("6️⃣  Exit")
-    print("7️⃣  View transaction history")
-
-elif choice == "7":
-    if os.path.exists("transactions.log"):
-        print("\n=== 🧾 TRANSACTION HISTORY ===\n")
-        with open("transactions.log", "r") as f:
-            print(f.read())
-    else:
-        print("\n📭 No transactions logged yet.")
-
-
+        print("6️⃣  View transaction history")
+        print("7️⃣  Exit")
 
         choice = input("\nSelect an option: ").strip()
 
@@ -152,19 +158,14 @@ elif choice == "7":
             send_transaction()
 
         elif choice == "6":
+            view_history()
+
+        elif choice == "7":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
 
         else:
             print("⚠️ Invalid selection, please try again.")
-
-
-def log_transaction(sender, receiver, amount):
-    """Save every transaction locally in transactions.log"""
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("transactions.log", "a") as f:
-        f.write(f"[{timestamp}] {sender} -> {receiver} | {amount} coins\n")
-
 
 
 # === ENTRY POINT ===
