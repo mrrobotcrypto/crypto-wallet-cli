@@ -111,7 +111,7 @@ def main_menu():
     wallets = load_wallets()
 
     while True:
-        print("\n=== 💼 MRROBOTCRYPTO WALLET CLI ===")
+        print("\n=== 🪙 CRYPTO WALLET CLI ===")
         print("1️⃣  Generate new wallet")
         print("2️⃣  List saved wallets")
         print("3️⃣  Check wallet balance (via blockchain-sim)")
@@ -121,8 +121,6 @@ def main_menu():
         print("7️⃣  Encrypt wallet backup")
         print("8️⃣  Decrypt wallet backup")
         print("9️⃣  Exit")
-    print("🔟  Monitor wallet balances (live)")
-
 
         choice = input("\nSelect an option: ").strip()
 
@@ -178,16 +176,6 @@ def main_menu():
         elif choice == "9":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
-	
-	elif choice == "10":
-    from wallet_monitor import check_wallets
-    interval = input("Enter refresh interval (seconds, default 10): ").strip()
-    try:
-        interval = int(interval) if interval else 10
-    except ValueError:
-        interval = 10
-    check_wallets(interval)
-
 
         else:
             print("⚠️ Invalid selection, please try again.")
