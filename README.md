@@ -18,3 +18,9 @@ python wallet.py
 Run:
 ```bash
 python wallet_cli.py
+
+
+## 🚀 New Features (v2.1)
+- Send transactions directly to the blockchain network
+- Automatic mempool integration and mining support
+- Real-time balance updates through REST API
