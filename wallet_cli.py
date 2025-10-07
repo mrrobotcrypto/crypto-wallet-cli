@@ -101,6 +101,17 @@ def main_menu():
         print("4️⃣  Export all wallets (JSON)")
         print("5️⃣  Send transaction to blockchain")
         print("6️⃣  Exit")
+    print("7️⃣  View transaction history")
+
+elif choice == "7":
+    if os.path.exists("transactions.log"):
+        print("\n=== 🧾 TRANSACTION HISTORY ===\n")
+        with open("transactions.log", "r") as f:
+            print(f.read())
+    else:
+        print("\n📭 No transactions logged yet.")
+
+
 
         choice = input("\nSelect an option: ").strip()
 
