@@ -24,3 +24,8 @@ python wallet_cli.py
 - Send transactions directly to the blockchain network
 - Automatic mempool integration and mining support
 - Real-time balance updates through REST API
+
+
+## 🧾 Transaction Logging
+- Every sent transaction is stored locally in `transactions.log`
+- You can view the full history directly from the CLI
