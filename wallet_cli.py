@@ -118,6 +118,9 @@ def main_menu():
         print("5️⃣  Send transaction to blockchain")
         print("6️⃣  View transaction history")
         print("7️⃣  Exit")
+    print("8️⃣  Encrypt wallet backup")
+    print("9️⃣  Decrypt wallet backup")
+
 
         choice = input("\nSelect an option: ").strip()
 
@@ -163,6 +166,12 @@ def main_menu():
         elif choice == "7":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
+
+elif choice == "8":
+    print("\n🔒 Encrypting wallet backup...")
+    encrypt_file("wallets.json", "wallets_backup.enc")
+    print("✅ Backup encrypted and saved as wallets_backup.enc")
+
 
         else:
             print("⚠️ Invalid selection, please try again.")
