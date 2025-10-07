@@ -37,6 +37,36 @@ def list_wallets(wallets):
         print(f"{i}. Address: {w['address']}")
 
 
+def send_transaction():
+    """Send a new transaction to the blockchain node."""
+    print("\n=== 🚀 SEND TRANSACTION ===")
+    sender = input("From address: ").strip()
+    receiver = input("To address: ").strip()
+    amount = input("Amount: ").strip()
+
+    try:
+        amount = float(amount)
+    except ValueError:
+        print("⚠️ Invalid amount. Must be a number.")
+        return
+
+    data = {
+        "from": sender,
+        "to": receiver,
+        "amount": amount
+    }
+
+    try:
+        res = requests.post(f"{API_URL}/transactions/new", json=data)
+        if res.status_code == 201:
+            print(f"✅ Transaction added to mempool!")
+        else:
+            print(f"❌ Failed to send transaction (status {res.status_code})")
+            print(res.text)
+    except requests.exceptions.RequestException as e:
+        print(f"⚠️ Network error: {e}")
+
+
 # === MAIN MENU ===
 def main_menu():
     """Interactive CLI menu."""
