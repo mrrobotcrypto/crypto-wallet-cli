@@ -111,16 +111,16 @@ def main_menu():
     wallets = load_wallets()
 
     while True:
-        print("\n=== 🪙 CRYPTO WALLET CLI ===")
+        print("\n=== 💼 MRROBOTCRYPTO WALLET CLI ===")
         print("1️⃣  Generate new wallet")
         print("2️⃣  List saved wallets")
         print("3️⃣  Check wallet balance (via blockchain-sim)")
         print("4️⃣  Export all wallets (JSON)")
         print("5️⃣  Send transaction to blockchain")
         print("6️⃣  View transaction history")
-        print("8️⃣  Encrypt wallet backup")
-        print("9️⃣  Decrypt wallet backup")
-        print("7️⃣  Exit")  # Exit artık en sonda
+        print("7️⃣  Encrypt wallet backup")
+        print("8️⃣  Decrypt wallet backup")
+        print("9️⃣  Exit")
 
         choice = input("\nSelect an option: ").strip()
 
@@ -163,17 +163,17 @@ def main_menu():
         elif choice == "6":
             view_history()
 
-        elif choice == "8":
+        elif choice == "7":
             print("\n🔒 Encrypting wallet backup...")
             encrypt_file("wallets.json", "wallets_backup.enc")
             print("✅ Backup encrypted and saved as wallets_backup.enc")
 
-        elif choice == "9":
+        elif choice == "8":
             print("\n🔓 Decrypting wallet backup...")
             decrypt_file("wallets_backup.enc", "wallets_restored.json")
             print("✅ Backup decrypted and restored as wallets_restored.json")
 
-        elif choice == "7":
+        elif choice == "9":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
 
