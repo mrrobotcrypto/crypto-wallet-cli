@@ -172,6 +172,12 @@ elif choice == "8":
     encrypt_file("wallets.json", "wallets_backup.enc")
     print("✅ Backup encrypted and saved as wallets_backup.enc")
 
+elif choice == "9":
+    print("\n🔓 Decrypting wallet backup...")
+    decrypt_file("wallets_backup.enc", "wallets_restored.json")
+    print("✅ Backup decrypted and restored as wallets_restored.json")
+
+
 
         else:
             print("⚠️ Invalid selection, please try again.")
