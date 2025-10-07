@@ -37,6 +37,7 @@ def list_wallets(wallets):
         print(f"{i}. Address: {w['address']}")
 
 
+# === TRANSACTION FEATURE ===
 def send_transaction():
     """Send a new transaction to the blockchain node."""
     print("\n=== 🚀 SEND TRANSACTION ===")
@@ -44,8 +45,12 @@ def send_transaction():
     receiver = input("To address: ").strip()
     amount = input("Amount: ").strip()
 
+    # Validation
     try:
         amount = float(amount)
+        if amount <= 0:
+            print("⚠️ Amount must be positive.")
+            return
     except ValueError:
         print("⚠️ Invalid amount. Must be a number.")
         return
@@ -59,7 +64,8 @@ def send_transaction():
     try:
         res = requests.post(f"{API_URL}/transactions/new", json=data)
         if res.status_code == 201:
-            print(f"✅ Transaction added to mempool!")
+            print(f"\n✅ Transaction added to mempool!")
+            print(f"   {sender} → {receiver} | Amount: {amount}")
         else:
             print(f"❌ Failed to send transaction (status {res.status_code})")
             print(res.text)
@@ -78,7 +84,8 @@ def main_menu():
         print("2️⃣  List saved wallets")
         print("3️⃣  Check wallet balance (via blockchain-sim)")
         print("4️⃣  Export all wallets (JSON)")
-        print("5️⃣  Exit")
+        print("5️⃣  Send transaction to blockchain")
+        print("6️⃣  Exit")
 
         choice = input("\nSelect an option: ").strip()
 
@@ -116,6 +123,9 @@ def main_menu():
             print(json.dumps(wallets, indent=4))
 
         elif choice == "5":
+            send_transaction()
+
+        elif choice == "6":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
 
