@@ -5,7 +5,7 @@ from wallet import generate_wallet
 
 # === CONFIGURATION ===
 WALLET_FILE = "wallets.json"
-API_URL = "http://127.0.0.1:5000"  # blockchain-sim API endpoint
+API_URL = "http://192.168.1.106:5000"  # blockchain-sim API endpoint
 
 
 # === FILE MANAGEMENT ===
