@@ -3,6 +3,7 @@ import os
 import requests
 import datetime
 from wallet import generate_wallet
+from backup_utils import encrypt_file, decrypt_file
 
 # === CONFIGURATION ===
 WALLET_FILE = "wallets.json"
@@ -117,10 +118,9 @@ def main_menu():
         print("4️⃣  Export all wallets (JSON)")
         print("5️⃣  Send transaction to blockchain")
         print("6️⃣  View transaction history")
-        print("7️⃣  Exit")
-    print("8️⃣  Encrypt wallet backup")
-    print("9️⃣  Decrypt wallet backup")
-
+        print("8️⃣  Encrypt wallet backup")
+        print("9️⃣  Decrypt wallet backup")
+        print("7️⃣  Exit")  # Exit artık en sonda
 
         choice = input("\nSelect an option: ").strip()
 
@@ -163,21 +163,19 @@ def main_menu():
         elif choice == "6":
             view_history()
 
+        elif choice == "8":
+            print("\n🔒 Encrypting wallet backup...")
+            encrypt_file("wallets.json", "wallets_backup.enc")
+            print("✅ Backup encrypted and saved as wallets_backup.enc")
+
+        elif choice == "9":
+            print("\n🔓 Decrypting wallet backup...")
+            decrypt_file("wallets_backup.enc", "wallets_restored.json")
+            print("✅ Backup decrypted and restored as wallets_restored.json")
+
         elif choice == "7":
             print("\n👋 Goodbye, MrRobotCrypto!")
             break
-
-elif choice == "8":
-    print("\n🔒 Encrypting wallet backup...")
-    encrypt_file("wallets.json", "wallets_backup.enc")
-    print("✅ Backup encrypted and saved as wallets_backup.enc")
-
-elif choice == "9":
-    print("\n🔓 Decrypting wallet backup...")
-    decrypt_file("wallets_backup.enc", "wallets_restored.json")
-    print("✅ Backup decrypted and restored as wallets_restored.json")
-
-
 
         else:
             print("⚠️ Invalid selection, please try again.")
